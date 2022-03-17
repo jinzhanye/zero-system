@@ -1,4 +1,4 @@
-# z2
+# zero-system
 
 ## Project setup
 ```
