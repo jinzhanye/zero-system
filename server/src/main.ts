@@ -7,6 +7,7 @@ import { AllExceptionFilter } from './interceptor/error.filter';
 import { AuthGuard } from './interceptor/auth.guard';
 import { ConfigService } from '@nestjs/config';
 import { ENodeEnv, NestConfig } from './config';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
@@ -33,4 +34,5 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
   await app.listen(NestConfig.port);
 }
+
 bootstrap();
