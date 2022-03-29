@@ -1,31 +1,26 @@
-generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["debian-openssl-1.1.x", "rhel-openssl-1.0.x", "rhel-openssl-1.1.x", "native"]
-}
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator nestjsDto {
-  provider                        = "prisma-generator-nestjs-dto"
-  output                          = "../src/dto"
-  outputToNestJsResourceStructure = "true"
+generator client {
+  provider = "prisma-client-js"
 }
 
 generator nestgraphql {
   provider = "node node_modules/prisma-nestjs-graphql"
-  output   = "../src/@generated"
+  output = "../src/@generated/prisma-nestjs-graphql"
+  fields_Validator_from = "class-validator"
+  fields_Validator_input = true
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./db.sqlite"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model tag {
-  id         Int      @id @default(autoincrement())
-  uid        String   @unique @default(uuid())
-  name       String   @default("")
-  use_count  Int      @default(0)
-  user_id    String   @default("")
-  is_delete  Boolean  @default(false)
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+model User {
+  id      Int      @id @default(autoincrement())
+  /// @Validator.IsEmail()
+  email   String   @unique
+  /// @Validator.MinLength(3)
+  name    String?
 }

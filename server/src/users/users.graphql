@@ -1,0 +1,28 @@
+# 这个文件是要自己写的，自动生成可能跟实际开发有出入
+
+type User {
+  id: Int!
+  email: String!
+  name: String
+}
+
+input CreateUserInput {
+  id: Int!
+  email: String!
+  name: String
+}
+
+input OrderByParams {
+  field: String
+  direction: String
+}
+
+type Query {
+  users(orderBy: OrderByParams): [User]!
+  user(id: Int!): User
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  removeUser(id: Int!): User
+}

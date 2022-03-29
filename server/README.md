@@ -1,166 +1,73 @@
-## 介绍
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+</p>
 
-这是一个 prisma + nestjs + graphql 的集成示例
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-对于开发者来说，特别是使用 graphql 的时候，只需要写非常少量的代码即可完成数据的各种操作，同时也支持接口透传。
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-### 开发&部署
+## Description
 
-#### 本地开发
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-npm run start:dev
+## Installation
 
-swagger 地址：http://localhost:3001/swagger
-
-graphql playground：http://localhost:3001/index.html
-
-### 核心能力
-
-#### 1. prisma 集成
-
-- prisma 接管数据模型定义
-- prisma 提供 orm 数据操作
-- prisma 提供数据订正和管理
-
-#### 2. graphql 集成
-
-- prisma-nestjs-graphql 提供 prisma 数据模型到 graphql 类型的转换
-- 使用 nestjs 内置的代码优先模式，使用生成的类型提供 graphql 模型
-- 使用 graphql 模型 + orm，自动通过 resolver 提供给前端访问接口
-- 此方案中，普通和高级的增删改查基本不需要自己增加代码
-
-#### 3. restful api proxy
-
-- 通过 swagger-to-graphql 将 openapi 接口通过 oas 文档直接转换为 graphql 定义
-- 通过 graphqlHTTP 将请求代理到 restful 接口
-- 此方案中，swagger 的描述无缝转换到 graphql 描述，并自动代理请求
-
-#### 4. nestjs 本身一些特性的示例
-
-- 全局钩子，并且兼容 graphql 和 rest 请求，如 登录校验、返回封装、错误处理等
-- graphql 集成和配置，graphql 代理集成和配置
-- yaml 配置和加载
-
-#### 5. graphiql-explorer 快速组合查询
-
-- 通过 graphiQL 的第三方插件 graphiql-explorer 快速预览和组合 graphql 请求
-
-![](./F0698852-0F7F-4C35-88F5-E2BA76E47B09.png)
-
-更多信息：[](./share.md)
-
-### 开发流程
-
-#### 1. 首先定义业务模型（prisma scheme）
-
-修改 ./prisma/scheme.prisma
-
-添加新的业务模型
-
-```
-model xxx {
-  id         Int      @id @default(autoincrement())
-  uid        String   @unique @default(uuid())
-  name       String   @unique @db.VarChar(20)
-}
+```bash
+$ npm install
 ```
 
-#### 2. 创建数据库表
+## Running the app
 
-可以使用 prisma cli 创建表结构，不过为了安全起见，最好使用本地数据库操作，然后将数据库的 create sql 同步至其他环境
+```bash
+# development
+$ npm run start
 
-#### 3. prisma orm sdk 生成
+# watch mode
+$ npm run start:dev
 
-`npm run gen`
-
-之后即可在代码中使用 prisma 的对象
-
-```javascript
-this.prisma.tag.findMany({
-  skip: (pager.pageIndex - 1) * pager.pageSize,
-  take: pager.pageSize,
-  where: {
-    is_delete: false,
-  },
-  orderBy: [{ use_count: 'desc' }],
-  select: {
-    is_delete: false,
-    id: false,
-    uid: true,
-    name: true,
-    use_count: true,
-    created_at: true,
-    updated_at: true,
-  },
-});
+# production mode
+$ npm run start:prod
 ```
 
-#### 4. 创建 crud 接口
+## Test
 
-`npm run crud`
+```bash
+# unit tests
+$ npm run test
 
-生成新的业务模型的增伤改查接口，可以选择生成 rest 接口或者 graphql 接口（代码优先）
+# e2e tests
+$ npm run test:e2e
 
-#### 5. 开发业务逻辑(rest)
-
-修改接口定义 xxx.controller.ts
-
-修改 service 实现：xxx.service.ts
-
-定义 swagger 注解
-
-#### 5. 开发业务逻辑（graphql）
-
-在运行 npm run gen 的过程中，会使用 prisma-nestjs-graphql 生成 gql 类型定义
-
-在 xxx.resolver.ts 中开发逻辑
-
-在使用 gen 生成 gql 的类型代码之后，基本不需要写太多 service 逻辑，特别是普通的单个和列表查询
-
-如：
-
+# test coverage
+$ npm run test:cov
 ```
 
-import { FindManytagArgs } from '../@generated/tag/find-manytag.args';
-import { FindUniquetagArgs } from '../@generated/tag/find-uniquetag.args';
-import { tagWhereInput } from '../@generated/tag/tag-where.input';
-import { tagCreateInput } from '../@generated/tag/tag-create.input';
-import { tag } from '../@generated/tag/tag.model';
-import { tag_event_relation } from '../@generated/tag-event-relation/tag-event-relation.model';
+## Support
 
-...
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-@Query(() => [tag], { name: 'tagsAll' })
-async findAll(@Args() args: FindManytagArgs) {
-    const result = await this.tagsGqlService.findMany({ ...args });
-    return result;
-}
-```
+## Stay in touch
 
-FindManytagArgs 是 生成的类型
+- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-this.tagsGqlService.findMany 就是一个透传，内部是 this.prisma.tag.findMany
+## License
 
-```
-
-@Injectable()
-export class TagsGqlService {
-  constructor(private prisma: PrismaService) {}
-
-  update = this.prisma.tag.update;
-  delete = this.prisma.tag.delete;
-  findUnique = this.prisma.tag.findUnique;
-  findMany = this.prisma.tag.findMany;
-  count = this.prisma.tag.count;
-  create = this.prisma.tag.create;
-}
-
-```
-
-![](./5C44E121-4090-4C9B-8197-30771B9F9671.png)
-
-#### 6. 查看 swagger 和 graphql playground
-
-swagger 地址：http://localhost:3000/swagger
-
-graphql playground：http://localhost:3000/index.html
+Nest is [MIT licensed](LICENSE).
